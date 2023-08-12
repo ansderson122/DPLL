@@ -1,16 +1,21 @@
 import copy
-PATH = 'entrada.txt'
 
+def carregaDados(PATH):
+    dados = []
+    try:
+        with open(PATH, 'r') as entrada:
+            for linhas in entrada:
+                if linhas[0] == "p": continue
+                clausula = linhas.split()
+                clausula = [int(literal) for literal in clausula if literal != "0\n"]
+                dados.append(clausula)
 
-dados = []
-res = []
+    except FileNotFoundError:
+        print(f"Arquivo '{PATH}' não encontrado.")
+    except Exception as e:
+        print(f"Ocorreu um erro: {e}")
 
-with open(PATH, 'r') as entrada:
-    for linhas in entrada:
-        if linhas[0] == "p": continue
-        clausula = linhas.split(" ")
-        clausula = [int(literal) for literal in clausula if literal != "0\n"]
-        dados.append(clausula)
+    return dados
 
 def simplifica(f :list, a:int)-> list:
     #print(f)
@@ -49,13 +54,11 @@ def satisfativel(f:list)->bool:
                     return False
     return True
        
-  
-        
-
-
-
-def DPLL():
-    res.append(15) #aqui dever ser chamado uma função para escolhe um literal
+# a variavel 'a' é a suposição inicical 
+def DPLL(PATH = 'entrada.txt',a = 15):
+    res = []
+    dados = carregaDados(PATH)
+    res.append(a) 
     f = copy.deepcopy(dados)
     continua = True
 
