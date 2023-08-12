@@ -3,6 +3,7 @@ PATH = 'entrada.txt'
 
 
 dados = []
+res = []
 
 with open(PATH, 'r') as entrada:
     for linhas in entrada:
@@ -11,10 +12,7 @@ with open(PATH, 'r') as entrada:
         clausula = [int(literal) for literal in clausula if literal != "0\n"]
         dados.append(clausula)
 
-def simplifica(f :list)-> None:
-    #escolhe um literal 
-    a = 10 #aqui dever ser chamado uma função para escolhe um literal
-
+def simplifica(f :list, a:int)-> None:
     for clausula in reversed(f):
         for literal in clausula:
             if a == literal:
@@ -22,7 +20,20 @@ def simplifica(f :list)-> None:
                 break
             elif -a == literal:
                 clausula.remove(literal)
-  
+    
+    print(f)
+    for clausula in f:
+        if len(clausula) == 1:
+            res.append(clausula[0])
+            simplifica(f, clausula[0])
 
-simplifica(dados)
-print(dados)
+
+
+def DPLL():
+    res.append(10) #aqui dever ser chamado uma função para escolhe um literal
+    simplifica(dados,res[0])
+    print("res : " + str(res))
+
+
+if __name__ == "__main__":
+    DPLL()
