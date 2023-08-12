@@ -20,7 +20,7 @@ def carregaDados(PATH):
 def simplifica(f :list, a:int)-> list:
     #print(f)
     #print("res : " + str(res))
-    global dados
+    global dados,res
     for clausula in reversed(f):
         for literal in clausula:
             if a == literal:
@@ -55,7 +55,7 @@ def satisfativel(f:list)->bool:
     return True
        
 # a variavel 'a' é a suposição inicical 
-def DPLL(PATH = 'entrada.txt',a = 15):
+def DPLL(PATH = 'entrada.txt',a = 10):
     res = []
     dados = carregaDados(PATH)
     res.append(a) 
