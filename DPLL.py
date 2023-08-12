@@ -79,7 +79,7 @@ def DPLL():
 
         # se não existe clausual unitarias 
         if unit == 0 and len(f) >= 1:
-            res.append(f[0][0])
+            res.append(f[0][0]) # aqui pode se escolhe uma valor a partir de uma função
             f = simplifica(f, f[0][0])
             continue      
 
