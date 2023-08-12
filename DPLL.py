@@ -28,10 +28,11 @@ def simplifica(f :list, a:int)-> list:
                         f = copy.deepcopy(dados)
                         res.remove(a)
                         res.append(-a)
+                        print(-a)
                         f = simplifica(f,-a)
                         return f
                 else:
-                    return 
+                    return f
 
     dados = copy.deepcopy(f)
     return f
@@ -54,9 +55,12 @@ def satisfativel(f:list)->bool:
 
 
 def DPLL():
-    res.append(10) #aqui dever ser chamado uma função para escolhe um literal
+    res.append(15) #aqui dever ser chamado uma função para escolhe um literal
     f = copy.deepcopy(dados)
     continua = True
+
+    #print("res : " + str(res))
+    #print(f)
 
     f = simplifica(f,res[0])
     while continua:
@@ -74,6 +78,8 @@ def DPLL():
                 f = simplifica(f, clausula[0])
                 if not satisfativel(f):
                     print("É insatisfativel")
+                    
+                    print(f)
                     continua = False
                     break 
 
