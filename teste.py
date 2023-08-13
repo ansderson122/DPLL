@@ -10,7 +10,7 @@ tamanho_medio_clausula = 100
 geraTxtDados(num_clausulas,num_variaveis,tamanho_medio_clausula)
 
 inicio = time.time()
-DPLL("dadosTeste/engine_4.txt")
+DPLL("dadosTeste/teste1.txt")
 fim = time.time()
 
 tempo_decorrido = fim - inicio

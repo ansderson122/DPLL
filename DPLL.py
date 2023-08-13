@@ -23,9 +23,9 @@ def carregaDados(PATH):
     return dados
 
 def simplifica(f :list, a:int)-> list:
-    print("res : " + str(res))
-    print(f)
-    input()
+    #print("res : " + str(res))
+    #print(f)
+    #input()
 
     for clausula in reversed(f):
         for literal in clausula:
@@ -47,7 +47,7 @@ def satisfativel(f:list)->bool:
     return True
        
 # a variavel 'a' é a suposição inicical 
-def DPLL(PATH = 'entrada.txt',a = 1):
+def DPLL(PATH = 'entrada.txt',a = 10):
     global res
     res = []
     
@@ -55,22 +55,34 @@ def DPLL(PATH = 'entrada.txt',a = 1):
     res.append(a) 
     f = copy.deepcopy(dados)
     continua = True
+    tentativa = 1
 
     f = simplifica(f,res[0])
     while continua: 
         unit = 0 # numero de clausula unitarias 
         # elimina clausula unitarias 
         if not satisfativel(f):
-            print("É insatisfativel")
-            continua = False
-            break 
+            if tentativa == 1:
+                f = copy.deepcopy(dados)
+                x = res[len(res)-1]
+                res.remove(x)
+                res.append(-x)
+                f = simplifica(f,-x)
+                tentativa += 1
+            else:
+                print("É insatisfativel")
+                continua = False
+                break 
+        else:
+            tentativa = 1
+
+        dados = copy.deepcopy(f)
+
         for clausula in f:
             if len(clausula) == 1:
                 unit+=1
                 res.append(clausula[0])
                 f = simplifica(f, clausula[0])
-                
-        
 
         for clausula in f:
             if len(clausula) == 0: # clausala vazia 
@@ -88,7 +100,7 @@ def DPLL(PATH = 'entrada.txt',a = 1):
         if len(f) == 0:
             print("É satisfativel")
             continua = False
-        dados = copy.deepcopy(f)
+        
     
     #print("res : " + str(res))
     return res
