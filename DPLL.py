@@ -42,12 +42,11 @@ def satisfativel(f:list)->bool:
         for j in range(i+1,len(f)):
             if len(f[i]) == 1 and len(f[j]) == 1:
                 if f[i][0] == -f[j][0]:
-                    print("Existe f[{}] = {} e f[{}] = {}".format(i,f[i],j,f[j]))
                     return False
     return True
        
 # a variavel 'a' é a suposição inicical 
-def DPLL(PATH = 'entrada.txt',a = 10):
+def DPLL(PATH = 'entrada.txt',a = 1):
     global res
     res = []
     
@@ -102,7 +101,7 @@ def DPLL(PATH = 'entrada.txt',a = 10):
             continua = False
         
     
-    #print("res : " + str(res))
+    print("res : " + str(res))
     return res
 if __name__ == "__main__":
     DPLL()
