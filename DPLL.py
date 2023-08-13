@@ -23,9 +23,10 @@ def carregaDados(PATH):
     return dados
 
 def simplifica(f :list, a:int)-> list:
-    #print(f)
     #print("res : " + str(res))
-    global dados,res
+    #print(f)
+    #input()
+
     for clausula in reversed(f):
         for literal in clausula:
             if a == literal:
@@ -46,49 +47,41 @@ def satisfativel(f:list)->bool:
     return True
        
 # a variavel 'a' é a suposição inicical 
-def DPLL(PATH = 'entrada.txt',a = 1):
+def DPLL(PATH = 'entrada.txt',a = 10):
+    global res
     res = []
+    
     dados = carregaDados(PATH)
     res.append(a) 
     f = copy.deepcopy(dados)
     continua = True
 
-    #print("res : " + str(res))
-    #print(f)
-
     f = simplifica(f,res[0])
-    while continua:
-        #print("res : " + str(res))
-        #print(f)
-        #input()
-
-        
+    while continua: 
         unit = 0 # numero de clausula unitarias 
         if satisfativel(f):
             for clausula in f:
-                tamanhoClausula = len(clausula)
-                if tamanhoClausula == 0: # clausala vazia 
+                if len(clausula) == 0: # clausala vazia 
                     f = copy.deepcopy(dados)
                     res.remove(a)
                     res.append(-a)
-                    print(-a)
                     f = simplifica(f,-a)
-
-                # elimina clausula unitarias 
-                if tamanhoClausula == 1:
-                    unit+=1
-                    res.append(clausula[0])
-                    f = simplifica(f, clausula[0])
         else:
             print("É insatisfativel")
             continua = False
-            break     
+            break 
+
+        # elimina clausula unitarias 
+        for clausula in f:
+            if len(clausula) == 1:
+                unit+=1
+                res.append(clausula[0])
+                f = simplifica(f, clausula[0])    
 
         # se não existe clausual unitarias 
         if unit == 0 and len(f) >= 1:
             res.append(f[0][0]) # aqui pode se escolhe uma valor a partir de uma função
-            f = simplifica(f, f[0][0])
-            continue      
+            f = simplifica(f, f[0][0])      
 
         if len(f) == 0:
             print("É satisfativel")

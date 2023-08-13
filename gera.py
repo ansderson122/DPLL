@@ -26,7 +26,7 @@ def escreve_arquivo(dados, nome_arquivo):
 def main():
     num_clausulas = 10000
     num_variaveis = 500
-    tamanho_medio_clausula = 3
+    tamanho_medio_clausula = 100
     nome_arquivo = 'dados_dpll.txt'
 
     dados = gera_dados_aleatorios(num_clausulas, num_variaveis, tamanho_medio_clausula)
