@@ -23,14 +23,9 @@ def escreve_arquivo(dados, nome_arquivo):
             linha = ' '.join(map(str, clausula)) + ' 0\n'
             arquivo.write(linha)
 
-def main():
-    num_clausulas = 10000
-    num_variaveis = 500
-    tamanho_medio_clausula = 100
-    nome_arquivo = 'dados_dpll.txt'
-
+def geraTxtDados(num_clausulas = 10000,num_variaveis = 500, tamanho_medio_clausula = 100 ,nome_arquivo='dados_dpll.txt'):
     dados = gera_dados_aleatorios(num_clausulas, num_variaveis, tamanho_medio_clausula)
     escreve_arquivo(dados, nome_arquivo)
 
 if __name__ == "__main__":
-    main()
+    geraTxtDados()

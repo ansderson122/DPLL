@@ -47,7 +47,7 @@ def satisfativel(f:list)->bool:
     return True
        
 # a variavel 'a' é a suposição inicical 
-def DPLL(PATH = 'entrada.txt',a = 10):
+def DPLL(PATH = 'entrada.txt',a = 1):
     global res
     res = []
     
@@ -88,7 +88,7 @@ def DPLL(PATH = 'entrada.txt',a = 10):
             continua = False
         dados = copy.deepcopy(f)
     
-    print("res : " + str(res))
+    #print("res : " + str(res))
     
 if __name__ == "__main__":
     DPLL()
