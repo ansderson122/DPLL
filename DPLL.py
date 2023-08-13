@@ -1,5 +1,5 @@
 import copy
-import math
+
 
 def carregaDados(PATH):
     dados = []
@@ -23,9 +23,9 @@ def carregaDados(PATH):
     return dados
 
 def simplifica(f :list, a:int)-> list:
-    #print("res : " + str(res))
-    #print(f)
-    #input()
+    print("res : " + str(res))
+    print(f)
+    input()
 
     for clausula in reversed(f):
         for literal in clausula:
@@ -38,7 +38,7 @@ def simplifica(f :list, a:int)-> list:
               
 def satisfativel(f:list)->bool:
     # testa se ha duas clausulas unitaria com sinais diferente 
-    for i in range(math.ceil(len(f)/2)):
+    for i in range(len(f)):
         for j in range(i+1,len(f)):
             if len(f[i]) == 1 and len(f[j]) == 1:
                 if f[i][0] == -f[j][0]:
@@ -59,27 +59,29 @@ def DPLL(PATH = 'entrada.txt',a = 1):
     f = simplifica(f,res[0])
     while continua: 
         unit = 0 # numero de clausula unitarias 
-        if satisfativel(f):
-            for clausula in f:
-                if len(clausula) == 0: # clausala vazia 
-                    f = copy.deepcopy(dados)
-                    res.remove(a)
-                    res.append(-a)
-                    f = simplifica(f,-a)
-        else:
+        # elimina clausula unitarias 
+        if not satisfativel(f):
             print("É insatisfativel")
             continua = False
             break 
-
-        # elimina clausula unitarias 
         for clausula in f:
             if len(clausula) == 1:
                 unit+=1
                 res.append(clausula[0])
-                f = simplifica(f, clausula[0])    
+                f = simplifica(f, clausula[0])
+                
+        
+
+        for clausula in f:
+            if len(clausula) == 0: # clausala vazia 
+                f = copy.deepcopy(dados)
+                x = res[len(res)-1]
+                res.remove(x)
+                res.append(-x)
+                f = simplifica(f,-x)
 
         # se não existe clausual unitarias 
-        if unit == 0 and len(f) >= 1:
+        if unit == 0 and len(f) >= 1 and len(f[0]) >= 1:
             res.append(f[0][0]) # aqui pode se escolhe uma valor a partir de uma função
             f = simplifica(f, f[0][0])      
 
@@ -89,6 +91,6 @@ def DPLL(PATH = 'entrada.txt',a = 1):
         dados = copy.deepcopy(f)
     
     #print("res : " + str(res))
-    
+    return res
 if __name__ == "__main__":
     DPLL()

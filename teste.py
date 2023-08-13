@@ -2,14 +2,15 @@ from DPLL import DPLL
 from gera import geraTxtDados
 import time
 
+t = ""
 num_clausulas = 50000
 num_variaveis = 500
-tamanho_medio_clausula = 10
+tamanho_medio_clausula = 100
 
 geraTxtDados(num_clausulas,num_variaveis,tamanho_medio_clausula)
 
 inicio = time.time()
-DPLL("dados_dpll.txt")
+DPLL("dadosTeste/engine_4.txt")
 fim = time.time()
 
 tempo_decorrido = fim - inicio
