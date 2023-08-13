@@ -1,20 +1,25 @@
 import copy
+import math
 
 def carregaDados(PATH):
     dados = []
+    numLinhas = 0
     try:
         with open(PATH, 'r') as entrada:
             for linhas in entrada:
-                if linhas[0] == "p": continue
+                if linhas[0] == "p": 
+                    linhas1 = linhas.split(" ")
+                    numLinhas = linhas1[3]
+                    continue
                 clausula = linhas.split(" ")
-                clausula = [int(literal) for literal in clausula if literal != "0\n"]
+                clausula = [int(literal) for literal in clausula if literal != "0\n" and literal != ""]
                 dados.append(clausula)
-
     except FileNotFoundError:
         print(f"Arquivo '{PATH}' não encontrado.")
+        return e
     except Exception as e:
         print(f"Ocorreu um erro: {e}")
-
+        return e
     return dados
 
 def simplifica(f :list, a:int)-> list:
@@ -28,29 +33,15 @@ def simplifica(f :list, a:int)-> list:
                 break
             elif -a == literal:
                 clausula.remove(literal)
-                if satisfativel(f):
-                    if len(clausula) == 0: # clausala vazia 
-                        f = copy.deepcopy(dados)
-                        res.remove(a)
-                        res.append(-a)
-                        print(-a)
-                        f = simplifica(f,-a)
-                        return f
-                else:
-                    return f
-
-    dados = copy.deepcopy(f)
     return f
-    
-
-  
-            
+              
 def satisfativel(f:list)->bool:
-      # testa se ha duas clausulas unitaria com sinais diferente 
-    for i in range(len(f)):
+    # testa se ha duas clausulas unitaria com sinais diferente 
+    for i in range(math.ceil(len(f)/2)):
         for j in range(i+1,len(f)):
             if len(f[i]) == 1 and len(f[j]) == 1:
                 if f[i][0] == -f[j][0]:
+                    print("Existe f[{}] = {} e f[{}] = {}".format(i,f[i],j,f[j]))
                     return False
     return True
        
@@ -73,18 +64,25 @@ def DPLL(PATH = 'entrada.txt',a = 1):
 
         
         unit = 0 # numero de clausula unitarias 
-        # elimina clausula unitarias 
-        for clausula in f:
-            if len(clausula) == 1:
-                unit+=1
-                res.append(clausula[0])
-                f = simplifica(f, clausula[0])
-                if not satisfativel(f):
-                    print("É insatisfativel")
-                    
-                    print(f)
-                    continua = False
-                    break 
+        if satisfativel(f):
+            for clausula in f:
+                tamanhoClausula = len(clausula)
+                if tamanhoClausula == 0: # clausala vazia 
+                    f = copy.deepcopy(dados)
+                    res.remove(a)
+                    res.append(-a)
+                    print(-a)
+                    f = simplifica(f,-a)
+
+                # elimina clausula unitarias 
+                if tamanhoClausula == 1:
+                    unit+=1
+                    res.append(clausula[0])
+                    f = simplifica(f, clausula[0])
+        else:
+            print("É insatisfativel")
+            continua = False
+            break     
 
         # se não existe clausual unitarias 
         if unit == 0 and len(f) >= 1:
@@ -95,10 +93,9 @@ def DPLL(PATH = 'entrada.txt',a = 1):
         if len(f) == 0:
             print("É satisfativel")
             continua = False
+        dados = copy.deepcopy(f)
     
     print("res : " + str(res))
     
-
-
 if __name__ == "__main__":
     DPLL()
