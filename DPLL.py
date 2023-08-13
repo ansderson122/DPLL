@@ -23,9 +23,7 @@ def carregaDados(PATH):
     return dados
 
 def simplifica(f :list, a:int)-> list:
-    #print("res : " + str(res))
-    #print(f)
-    #input()
+    #print("res : " + str(res)) # removar o comentário para debug 1/4
 
     for clausula in reversed(f):
         for literal in clausula:
@@ -34,11 +32,16 @@ def simplifica(f :list, a:int)-> list:
                 break
             elif -a == literal:
                 clausula.remove(literal)
+    #print(f) # removar o comentário para debug 2/4
+    #input() # removar o comentário para debug 3/4
     return f
               
 def satisfativel(f:list)->bool:
     # testa se ha duas clausulas unitaria com sinais diferente 
+    # e clausala vazia 
     for i in range(len(f)):
+        if len(f[i]) == 0:
+            return False
         for j in range(i+1,len(f)):
             if len(f[i]) == 1 and len(f[j]) == 1:
                 if f[i][0] == -f[j][0]:
@@ -56,6 +59,7 @@ def DPLL(PATH = 'entrada.txt',a = 1):
     continua = True
     tentativa = 1
 
+    #print(f) # removar o comentário para debug 4/4
     f = simplifica(f,res[0])
     while continua: 
         unit = 0 # numero de clausula unitarias 
@@ -82,14 +86,7 @@ def DPLL(PATH = 'entrada.txt',a = 1):
                 unit+=1
                 res.append(clausula[0])
                 f = simplifica(f, clausula[0])
-
-        for clausula in f:
-            if len(clausula) == 0: # clausala vazia 
-                f = copy.deepcopy(dados)
-                x = res[len(res)-1]
-                res.remove(x)
-                res.append(-x)
-                f = simplifica(f,-x)
+                break
 
         # se não existe clausual unitarias 
         if unit == 0 and len(f) >= 1 and len(f[0]) >= 1:

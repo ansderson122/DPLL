@@ -7,7 +7,7 @@ num_clausulas = 50000
 num_variaveis = 500
 tamanho_medio_clausula = 100
 
-geraTxtDados(num_clausulas,num_variaveis,tamanho_medio_clausula)
+#geraTxtDados(num_clausulas,num_variaveis,tamanho_medio_clausula)
 
 inicio = time.time()
 DPLL("dadosTeste/teste1.txt")
