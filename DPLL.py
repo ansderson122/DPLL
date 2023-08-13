@@ -6,7 +6,7 @@ def carregaDados(PATH):
         with open(PATH, 'r') as entrada:
             for linhas in entrada:
                 if linhas[0] == "p": continue
-                clausula = linhas.split()
+                clausula = linhas.split(" ")
                 clausula = [int(literal) for literal in clausula if literal != "0\n"]
                 dados.append(clausula)
 
@@ -55,7 +55,7 @@ def satisfativel(f:list)->bool:
     return True
        
 # a variavel 'a' é a suposição inicical 
-def DPLL(PATH = 'entrada.txt',a = 10):
+def DPLL(PATH = 'entrada.txt',a = 1):
     res = []
     dados = carregaDados(PATH)
     res.append(a) 
