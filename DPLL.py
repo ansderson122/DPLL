@@ -57,7 +57,7 @@ def DPLL(PATH = 'entrada.txt',a = 1):
     res.append(a) 
     f = copy.deepcopy(dados)
     continua = True
-    tentativa = 1
+
 
     #print(f) # removar o comentário para debug 4/4
     f = simplifica(f,res[0])
@@ -65,19 +65,16 @@ def DPLL(PATH = 'entrada.txt',a = 1):
         unit = 0 # numero de clausula unitarias 
         # elimina clausula unitarias 
         if not satisfativel(f):
-            if tentativa == 1:
-                f = copy.deepcopy(dados)
-                x = res[len(res)-1]
-                res.remove(x)
-                res.append(-x)
-                f = simplifica(f,-x)
-                tentativa += 1
-            else:
+            f = copy.deepcopy(dados)
+            x = res[len(res)-1]
+            res.remove(x)
+            res.append(-x)
+            f = simplifica(f,-x)
+            if not satisfativel(f):
                 print("É insatisfativel")
                 continua = False
                 break 
-        else:
-            tentativa = 1
+
 
         dados = copy.deepcopy(f)
 
