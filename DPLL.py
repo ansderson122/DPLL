@@ -1,6 +1,5 @@
 import copy
 
-
 def carregaDados(PATH):
     dados = []
     numLinhas = 0
@@ -49,53 +48,43 @@ def satisfativel(f:list)->bool:
     return True
        
 # a variavel 'a' é a suposição inicical 
-def DPLL(PATH = 'entrada.txt',a = 1):
-    global res
-    res = []
-    
-    dados = carregaDados(PATH)
-    res.append(a) 
+def DPLL(dados,res = []): 
     f = copy.deepcopy(dados)
-    continua = True
 
+    unit = 0 # numero de clausula unitarias 
+    # elimina clausula unitarias  
+    for clausula in f:
+        if len(clausula) == 1:
+            unit+=1
+            res.append(clausula[0])
+            f = simplifica(f, clausula[0])
+            break
 
-    #print(f) # removar o comentário para debug 4/4
-    f = simplifica(f,res[0])
-    while continua: 
-        unit = 0 # numero de clausula unitarias 
-        # elimina clausula unitarias 
+    # se não existe clausual unitarias 
+    if unit == 0 and len(f) >= 1 and len(f[0]) >= 1:
+        res.append(f[0][0]) # aqui pode se escolhe uma valor a partir de uma função
+        f = simplifica(f, f[0][0])      
+
+    if len(f) == 0:
+        print("É satisfativel")
+        return True
+
+    if not satisfativel(f):
+        f = copy.deepcopy(dados)
+        x = res[len(res)-1]
+        res.remove(x)
+        res.append(-x)
+        f = simplifica(f,-x)
         if not satisfativel(f):
-            f = copy.deepcopy(dados)
-            x = res[len(res)-1]
-            res.remove(x)
-            res.append(-x)
-            f = simplifica(f,-x)
-            if not satisfativel(f):
-                print("É insatisfativel")
-                continua = False
-                break 
+            print("É insatisfativel")
+            return False
+                
+    #print("res : " + str(res))
+    return DPLL(f,res)
 
-
-        dados = copy.deepcopy(f)
-
-        for clausula in f:
-            if len(clausula) == 1:
-                unit+=1
-                res.append(clausula[0])
-                f = simplifica(f, clausula[0])
-                break
-
-        # se não existe clausual unitarias 
-        if unit == 0 and len(f) >= 1 and len(f[0]) >= 1:
-            res.append(f[0][0]) # aqui pode se escolhe uma valor a partir de uma função
-            f = simplifica(f, f[0][0])      
-
-        if len(f) == 0:
-            print("É satisfativel")
-            continua = False
-        
-    
-    print("res : " + str(res))
-    return res
 if __name__ == "__main__":
-    DPLL()
+    res = []
+    PATH = 'entrada.txt'
+    dados = carregaDados(PATH)
+    DPLL(dados,res)
+    print("res : " + str(res))
